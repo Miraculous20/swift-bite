@@ -24,7 +24,7 @@ const AboutUs = () => {
         <div className="mt-16 text-left">
           <h2 className="text-3xl font-bold text-gray-800">Our Journey</h2>
           <p className="mt-4 text-gray-600">
-            Our story began not in the vibrant streets of Uyo, but in the heart of Nigeria&apos;s capital, Abuja. Founded with a passion for technology and a love for local cuisine, Swift-Bite was born from a simple idea: that everyone should have easy access to the best food their city has to offer, no matter how busy their day is.
+            Our story began in the vibrant streets of Uyo. Founded with a passion for technology and a love for local cuisine, Swift-Bite was born from a simple idea: that everyone should have easy access to the best food their city has to offer, no matter how busy their day is.
           </p>
           <p className="mt-4 text-gray-600">
             We saw the incredible and dynamic culinary landscape of Uyo—from legendary local bukkas serving authentic delicacies to exclusive restaurants crafting modern masterpieces—and knew this was where we needed to be. We launched our operations in Uyo to celebrate, elevate, and share the unique tastes of Akwa Ibom with the community.
@@ -34,7 +34,7 @@ const AboutUs = () => {
           <p className="mt-4 text-gray-600">
             We are more than just a delivery app; we are a three-sided marketplace built on a foundation of partnership and trust.
           </p>
-          <ul className="mt-4 space-y-4 list-disc list-inside text-gray-600">
+          <ul className="mt-4 space-y-4 text-gray-600 list-disc list-inside">
             <li><strong>For Our Customers:</strong> We offer a carefully curated selection of Uyo’s best eateries on a seamless, user-friendly platform. Whether you’re craving a hearty local meal, a quick snack, or a gourmet dinner, Swift-Bite connects you to the food you love, delivered swiftly and reliably.</li>
             <li><strong>For Our Eatery Partners:</strong> We are a growth engine for local restaurants. By partnering with us, eateries gain access to a wider audience, a streamlined ordering process, and the digital tools needed to thrive in today’s competitive market. We are committed to helping our local businesses succeed.</li>
             <li><strong>For Our Delivery Agents:</strong> Our dedicated team of delivery agents is the backbone of our service. We provide them with flexible opportunities and the technology needed to perform deliveries efficiently, ensuring that your food arrives fresh, hot, and on time.</li>
