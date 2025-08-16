@@ -29,7 +29,7 @@ const app = express();
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_URL, 
     credentials: true,
 }));
 app.use(cookieParser());
