@@ -112,6 +112,14 @@ const router = createBrowserRouter([
                     { path: "orders", element: <ViewOrders /> }
                 ]
             },
+             { 
+              path: "checkout", 
+              element: <CheckoutPage /> 
+            },
+            
+            { path: "success", element : <Success/> },
+            { path: 'cancel', element : <Cancel/> },
+
 
             { path: "category/:categoryName", element: <CategoryProductListPage/> },
             { path: "product/:product", element : <ProductDisplayPage/> },
