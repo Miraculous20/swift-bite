@@ -47,7 +47,7 @@ import EateryDashboard from "/src/pages/eatery/EateryDashboard";
 import EateryMenuPage from "/src/pages/EateryMenuPage";
 import ManageProducts from "/src/pages/eatery/ManageProducts";
 import ViewOrders from "/src/pages/eatery/ViewOrders";
-import EateryProfile from "/src/pages/eatery/EateryProfile";
+import EateryProfile from "/src/pages/eatery/EateryProfile.jsx";
 
 
 const router = createBrowserRouter([
