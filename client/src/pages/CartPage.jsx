@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaCaretRight } from "react-icons/fa";
 import toast from 'react-hot-toast';
-import logoImage from '../../assets/images/logo.png';
+import logoImage from '../assets/images/logo.png';
 import AddToCartButton from '../components/AddToCartButton';
 import { pricewithDiscount } from '../utils/PriceWithDiscount';
 import { DisplayPriceInNaira } from '../utils/DisplayPriceInNaira';
