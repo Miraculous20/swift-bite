@@ -24,12 +24,11 @@ const CartPage = () => {
             return;
         }
         toast.error("Please login to proceed to checkout.");
-        navigate("/login");
+        navigate("/CheckoutPage");
     };
 
     const savings = totalOriginalPrice - totalPrice;
 
-    // Handle Empty Cart
     if (totalQty === 0) {
         return (
             <div className='flex flex-col items-center justify-center h-[calc(100vh-160px)] text-center'>
@@ -43,7 +42,6 @@ const CartPage = () => {
         );
     }
 
-    // Main Cart View
     return (
         <section className='bg-slate-50 min-h-[calc(100vh-160px)]'>
             <div className='container grid grid-cols-1 gap-8 p-4 mx-auto lg:grid-cols-3'>

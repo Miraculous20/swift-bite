@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-// FIX: The import has been corrected to 'react-redux'
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';

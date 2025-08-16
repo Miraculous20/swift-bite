@@ -19,13 +19,10 @@ import uploadRouter from './route/upload.router.js';
 import agentRouter from './route/agent.route.js';     
 import eateryRouter from './route/eatery.route.js';   
 
-// --- Initialize environment variables ---
 dotenv.config();
 
-// --- Create Express App ---
 const app = express();
 
-// --- Security, Logging, and Core Middleware ---
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(cors({
@@ -34,13 +31,10 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
-// --- Stripe Webhook Route (MUST be before express.json) ---
 app.post('/api/orders/webhook', express.raw({ type: 'application/json' }), orderWebhookController);
 
-// --- General Middleware ---
 app.use(express.json());
 
-// --- API Route Setup ---
 app.use('/api/users', userRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/subcategories", subCategoryRouter);
@@ -52,12 +46,10 @@ app.use("/api/upload", uploadRouter);
 app.use('/api/agents', agentRouter);
 app.use('/api/eateries', eateryRouter);
 
-// --- Health Check Endpoint ---
 app.get('/api', (req, res) => {
     res.json({ message: `Swift-Bite API is running.` });
 });
 
-// --- Global Error Handler ---
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ 
@@ -66,7 +58,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// --- Server and Database Connection ---
 const PORT = process.env.PORT || 8080;
 
 connectDB().then(() => {
