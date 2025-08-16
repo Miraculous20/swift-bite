@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaCaretRight } from "react-icons/fa";
 import toast from 'react-hot-toast';
-
+import logoImage from '../../assets/images/logo.png';
 import AddToCartButton from '../components/AddToCartButton';
 import { pricewithDiscount } from '../utils/PriceWithDiscount';
 import { DisplayPriceInNaira } from '../utils/DisplayPriceInNaira';
@@ -33,6 +33,7 @@ const CartPage = () => {
     if (totalQty === 0) {
         return (
             <div className='flex flex-col items-center justify-center h-[calc(100vh-160px)] text-center'>
+                <img src={logoImage} alt="Swift-Bite" className="w-40 mx-auto mb-4"/>
                 <img src="/assets/images/empty_cart.webp" className='object-contain w-48 h-48' alt="Empty Cart"/>
                 <h2 className="mt-6 text-2xl font-semibold">Your Cart is Empty</h2>
                 <p className='mt-2 text-slate-500'>Looks like you haven&apos;t added anything to your cart yet.</p>

@@ -93,7 +93,7 @@ export const loginUserController = async (req, res) => {
         user.refresh_token = refreshToken;
         await user.save();
 
-        const cookieOptions = { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'None' };
+        const cookieOptions = { httpOnly: true, secure: true, sameSite: 'None' };
         res.cookie('accessToken', accessToken, cookieOptions);
         res.cookie('refreshToken', refreshToken, cookieOptions);
 
@@ -107,7 +107,7 @@ export const loginUserController = async (req, res) => {
 export const logoutUserController = async (req, res) => {
     try {
         await UserModel.findByIdAndUpdate(req.user._id, { refresh_token: "" });
-        const cookieOptions = { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'None' };
+        const cookieOptions = { httpOnly: true, secure: true,  sameSite: 'None' };
         res.clearCookie("accessToken", cookieOptions);
         res.clearCookie("refreshToken", cookieOptions);
         return res.status(200).json({ success: true, message: "Logout successful." });
