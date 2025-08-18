@@ -1,73 +1,73 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
-import Axios from '../utils/Axios'; 
-import SummaryApi from '../common/SummaryApi';
 import { pricewithDiscount } from '../utils/PriceWithDiscount';
+import { mockMenu } from '../data/mockData'; 
 
-export const fetchCartItems = createAsyncThunk(
-    'cart/fetchItems', 
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await Axios.get(SummaryApi.getCartItem.url);
-            return response.data.data;
-        } catch (error) {
-         
-            return rejectWithValue(error.response?.data);
-        }
-    }
-);
+
+export const fetchCartItems = createAsyncThunk('cart/fetchItems', async () => {
+    await new Promise(resolve => setTimeout(resolve, 200));
+    return []; 
+});
 
 
 export const addItemToCart = createAsyncThunk(
     'cart/addItem', 
-    async (productId, { rejectWithValue }) => {
-        try {
-            const response = await Axios.post(SummaryApi.addToCart.url, { productId, quantity: 1 });
-            toast.success(response.data.message);
-            return response.data.data;
-        } catch (error) {
-            const message = error.response?.data?.message || "Failed to add item.";
-            toast.error(message);
-            return rejectWithValue(message);
+    async (productId, { getState, rejectWithValue }) => {
+        await new Promise(resolve => setTimeout(resolve, 200));
+        const { items } = getState().cart;
+        
+       
+        const productToAdd = mockMenu.find(p => p._id === productId);
+
+        if (!productToAdd) {
+            toast.error("Product not found in mock data.");
+            return rejectWithValue("Product not found");
         }
+
+       
+        const existingItem = items.find(item => item.productId?._id === productId);
+        if (existingItem) {
+            toast.error("Item is already in the cart.");
+            return rejectWithValue("Item already in cart");
+        }
+
+        toast.success("Item added to cart!");
+        
+        return { 
+            _id: `cart_${Date.now()}`, 
+            productId: productToAdd, 
+            quantity: 1 
+        };
     }
 );
 
 
 export const updateItemQuantity = createAsyncThunk(
     'cart/updateQuantity', 
-    async ({ cartItemId, quantity }, { rejectWithValue }) => {
-        try {
-            const response = await Axios.patch(SummaryApi.updateCartItemQty.url, { cartItemId, quantity });
-            return response.data.data; 
-        } catch (error) {
-            const message = error.response?.data?.message || "Failed to update quantity.";
-            toast.error(message);
-            return rejectWithValue(message);
+    async ({ cartItemId, quantity }) => {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        if (quantity < 1) {
+        
+            throw new Error("Quantity cannot be less than 1");
         }
+        return { cartItemId, quantity };
     }
 );
 
 
 export const deleteCartItem = createAsyncThunk(
     'cart/deleteItem', 
-    async (cartItemId, { rejectWithValue }) => {
-        try {
-            const response = await Axios.delete(`${SummaryApi.deleteCartItem.url}/${cartItemId}`);
-            toast.success(response.data.message);
-            return cartItemId; 
-        } catch (error) {
-            const message = error.response?.data?.message || "Failed to remove item.";
-            toast.error(message);
-            return rejectWithValue(message);
-        }
+    async (cartItemId) => {
+        await new Promise(resolve => setTimeout(resolve, 200));
+        toast.success("Item removed from cart.");
+        return cartItemId;
     }
 );
 
 
 const initialState = {
   items: [],
-  status: 'idle', 
+  status: 'idle',
   error: null,
 };
 
@@ -77,42 +77,35 @@ const cartSlice = createSlice({
   reducers: {
     clearCart: (state) => {
       state.items = [];
-      state.status = 'idle';
     }
   },
   extraReducers: (builder) => {
     builder
-      // Cases for fetchCartItems
-      .addCase(fetchCartItems.pending, (state) => { state.status = 'loading'; })
-      .addCase(fetchCartItems.fulfilled, (state, action) => {
-          state.status = 'succeeded';
-          state.items = action.payload || []; 
+      .addCase(fetchCartItems.fulfilled, (state, action) => { 
+          state.items = action.payload; 
       })
-      .addCase(fetchCartItems.rejected, (state) => {
-          state.status = 'failed';
-          state.items = []; 
-      })
-      // Cases for addItemToCart
-      .addCase(addItemToCart.fulfilled, (state, action) => {
-          state.items.push(action.payload);
-      })
-      // Cases for updateItemQuantity
-      .addCase(updateItemQuantity.fulfilled, (state, action) => {
-          const updatedItem = action.payload;
-          const index = state.items.findIndex(item => item._id === updatedItem._id);
-          if (index !== -1) {
-              state.items[index] = updatedItem;
+      .addCase(addItemToCart.fulfilled, (state, action) => { 
+         
+          const exists = state.items.some(item => item.productId._id === action.payload.productId._id);
+          if (!exists) {
+            state.items.push(action.payload);
           }
       })
-      // Cases for deleteCartItem
+      .addCase(updateItemQuantity.fulfilled, (state, action) => {
+          const { cartItemId, quantity } = action.payload;
+          const item = state.items.find(item => item._id === cartItemId);
+          if (item) {
+              item.quantity = quantity;
+          }
+      })
       .addCase(deleteCartItem.fulfilled, (state, action) => {
-          const deletedItemId = action.payload;
-          state.items = state.items.filter(item => item._id !== deletedItemId);
+          state.items = state.items.filter(item => item._id !== action.payload);
       });
   },
 });
 
 export const { clearCart } = cartSlice.actions;
+
 
 export const selectCartItems = (state) => state.cart.items;
 
