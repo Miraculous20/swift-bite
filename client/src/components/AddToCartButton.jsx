@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'redux';
+import { useDispatch, useSelector } from 'react-redux'; 
 import PropTypes from 'prop-types';
 import { addItemToCart, updateItemQuantity, deleteCartItem, selectCartItems } from '../store/cartSlice';
 import { FaMinus, FaPlus } from "react-icons/fa6";
@@ -10,13 +10,11 @@ const AddToCartButton = ({ data }) => {
     const [itemInCart, setItemInCart] = useState(null);
 
     useEffect(() => {
-        
+       
         const foundItem = cartItems.find(item => {
             if (typeof item.productId === 'object' && item.productId !== null) {
-                
                 return item.productId._id === data._id;
             }
-            
             return item.productId === data._id;
         });
         setItemInCart(foundItem);
