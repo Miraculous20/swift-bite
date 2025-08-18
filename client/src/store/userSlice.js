@@ -1,8 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
-import Axios from '../utils/Axios'; // Using our configured Axios instance
+import Axios from '../utils/Axios'; 
 import SummaryApi from '../common/SummaryApi';
-import { clearCart, fetchCartItems } from './cartSlice'; 
+import { clearCart, fetchCartItems } from './cartSlice';
+
+
+const getInitialUser = () => {
+    try {
+        const userString = localStorage.getItem('user');
+    
+        if (userString) {
+            return JSON.parse(userString);
+        }
+        return null;
+    } catch (error) {
+
+        console.error("Failed to parse user from localStorage", error);
+        return null;
+    }
+};
+
 
 export const fetchUserDetails = createAsyncThunk(
     'user/fetchDetails',
@@ -15,7 +32,6 @@ export const fetchUserDetails = createAsyncThunk(
             }
             return response.data.data; 
         } catch (error) {
-            
             return rejectWithValue(null);
         }
     }
@@ -29,9 +45,7 @@ export const loginUser = createAsyncThunk(
             const response = await Axios.post(SummaryApi.login.url, credentials);
             toast.success(response.data.message);
             
-           
             localStorage.setItem('user', JSON.stringify(response.data.data));
-
             dispatch(fetchCartItems());
 
             return response.data.data;
@@ -66,10 +80,8 @@ export const logoutUser = createAsyncThunk(
         try {
             await Axios.get(SummaryApi.logout.url);
             
-
             localStorage.removeItem('user');
-
-            dispatch(clearCart()); 
+            dispatch(clearCart());
             toast.success("Logged out successfully");
             return true;
         } catch (error) {
@@ -81,17 +93,9 @@ export const logoutUser = createAsyncThunk(
 );
 
 
-export const uploadAvatar = createAsyncThunk(
-    'user/uploadAvatar', 
-    async (formData, { rejectWithValue }) => {
-        toast.error("Avatar upload not yet implemented with backend.");
-        return rejectWithValue("Not implemented");
-    }
-);
-
 const initialState = {
-    userDetails: JSON.parse(localStorage.getItem('user')) || null, 
-    status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+    userDetails: getInitialUser(), 
+    status: 'idle', 
     error: null,
 };
 
