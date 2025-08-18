@@ -11,11 +11,11 @@ const orderProductSchema = new mongoose.Schema({
         required: true,
         min: 1
     },
-    price: { // Price of the single item at the time of purchase
+    price: { 
         type: Number,
         required: true
     }
-}, { _id: false }); // _id is not needed for subdocuments here
+}, { _id: false }); 
 
 const orderSchema = new mongoose.Schema({
     userId: {

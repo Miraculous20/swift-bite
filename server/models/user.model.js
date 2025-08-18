@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, "Password is required"],
-        select: false // Do not return password by default
+        select: false 
     },
     avatar: {
         type: String,
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['ADMIN', "USER"], // Agent is a separate model
+        enum: ['ADMIN', "USER"], 
         default: "USER"
     },
     verify_email: {
