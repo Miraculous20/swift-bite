@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'redux';
 import PropTypes from 'prop-types';
 import { addItemToCart, updateItemQuantity, deleteCartItem, selectCartItems } from '../store/cartSlice';
 import { FaMinus, FaPlus } from "react-icons/fa6";
@@ -10,7 +10,15 @@ const AddToCartButton = ({ data }) => {
     const [itemInCart, setItemInCart] = useState(null);
 
     useEffect(() => {
-        const foundItem = cartItems.find(item => item.productId?._id === data._id);
+        
+        const foundItem = cartItems.find(item => {
+            if (typeof item.productId === 'object' && item.productId !== null) {
+                
+                return item.productId._id === data._id;
+            }
+            
+            return item.productId === data._id;
+        });
         setItemInCart(foundItem);
     }, [cartItems, data._id]);
 
@@ -39,17 +47,17 @@ const AddToCartButton = ({ data }) => {
     return (
         <div className='flex items-center'>
             {itemInCart ? (
-                <div className='flex items-center justify-between w-24 h-9 border rounded-full bg-white shadow-sm'>
-                    <button onClick={handleDecreaseQty} className='w-8 h-8 flex justify-center items-center hover:bg-slate-100 rounded-l-full' aria-label="Decrease quantity">
+                <div className='flex items-center justify-between w-24 bg-white border rounded-full shadow-sm h-9'>
+                    <button onClick={handleDecreaseQty} className='flex items-center justify-center w-8 h-8 rounded-l-full hover:bg-slate-100' aria-label="Decrease quantity">
                         <FaMinus size={12} />
                     </button>
-                    <span className='font-semibold text-sm'>{itemInCart.quantity}</span>
-                    <button onClick={handleIncreaseQty} className='w-8 h-8 flex justify-center items-center hover:bg-slate-100 rounded-r-full' aria-label="Increase quantity">
+                    <span className='text-sm font-semibold'>{itemInCart.quantity}</span>
+                    <button onClick={handleIncreaseQty} className='flex items-center justify-center w-8 h-8 rounded-r-full hover:bg-slate-100' aria-label="Increase quantity">
                         <FaPlus size={12} />
                     </button>
                 </div>
             ) : (
-                <button onClick={handleAddItem} className='bg-green-100 text-green-700 hover:bg-green-600 hover:text-white px-4 py-2 rounded-full font-bold text-sm transition-colors'>
+                <button onClick={handleAddItem} className='px-4 py-2 text-sm font-bold text-green-700 transition-colors bg-green-100 rounded-full hover:bg-green-600 hover:text-white'>
                     Add
                 </button>
             )}
