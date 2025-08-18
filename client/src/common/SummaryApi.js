@@ -1,69 +1,67 @@
-export const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
-
-const SummaryApi = {
-  // --- User Endpoints ---
-  register: { url: '/users/register', method: 'post' },
-  login: { url: '/users/login', method: 'post' },
-  logout: { url: '/users/logout', method: 'get' },
-  userDetails: { url: '/users/details', method: 'get' },
-  updateUser: { url: '/users/details', method: 'put' },
-  uploadAvatar: { url: '/users/avatar', method: 'put' },
-  forgotPassword: { url: '/users/forgot-password', method: 'post' },
-  verifyOtp: { url: '/users/verify-otp', method: 'post' },
-  resetPassword: { url: '/users/reset-password', method: 'post' },
-  
-  // --- Eatery Endpoints ---
-  getAllEateries: { url: '/eateries', method: 'get' },
-  getEateryMenu: { url: '/eateries/menu', method: 'get' }, // will be /eateries/menu/:eateryId
-
-  // --- Agent Endpoints ---
-  agentRegister: { url: '/agents/register', method: 'post' },
-  agentLogin: { url: '/agents/login', method: 'post' },
-  agentLogout: { url: '/agents/logout', method: 'get' },
-  agentDetails: { url: '/agents/details', method: 'get' },
-  getDeliveryJobs: { url: '/agents/jobs', method: 'get' },
-  getDeliveryHistory: { url: '/agents/history', method: 'get' },
-  acceptDeliveryJob: { url: '/agents/jobs/accept', method: 'post' }, // will be /agents/jobs/accept/:jobId
-  updateLocation: { url: '/agents/location', method: 'post' },
-
-  // --- Product (Menu Item) Endpoints ---
-  getProducts: { url: '/products', method: 'get' }, 
-  getProductDetails: { url: '/products', method: 'get' }, 
-  createProduct: { url: '/products', method: 'post' },
-  updateProduct: { url: '/products', method: 'put' }, 
-  deleteProduct: { url: '/products', method: 'delete' }, 
-  getProductByCategory: { url: '/products/by-category', method: 'post' },
-  searchProduct: { url: '/products/search', method: 'get' },
-
-  // --- Category Endpoints ---
-  getCategory: { url: '/categories', method: 'get' },
-  addCategory: { url: '/categories', method: 'post' },
-  updateCategory: { url: '/categories', method: 'put' }, 
-  deleteCategory: { url: '/categories', method: 'delete' }, 
-  
-  // --- Sub-Category Endpoints ---
-  getSubCategory: { url: '/subcategories', method: 'get' },
-  createSubCategory: { url: '/subcategories', method: 'post' },
-  updateSubCategory: { url: '/subcategories', method: 'put' },
-  deleteSubCategory: { url: '/subcategories', method: 'delete' }, 
-
-  // --- Cart Endpoints ---
-  getCartItem: { url: '/cart', method: 'get' },
-  addToCart: { url: '/cart', method: 'post' },
-  updateCartItemQty: { url: '/cart', method: 'patch' }, 
-  deleteCartItem: { url: '/cart', method: 'delete' }, 
-
-  // --- Address Endpoints ---
-  getAddress: { url: '/addresses', method: 'get' },
-  createAddress: { url: '/addresses', method: 'post' },
-  updateAddress: { url: '/addresses', method: 'put' }, 
-  deleteAddress: { url: '/addresses', method: 'delete' }, 
-
-  // --- Order Endpoints ---
-  getOrderItems: { url: '/orders', method: 'get' },
-  createCheckoutSession: { url: '/orders/checkout', method: 'post' },
-  createCodOrder: { url: '/orders/cash-on-delivery', method: 'post' },
-  getOrderDetails: { url: '/orders', method: 'get' }, // For tracking, will be /orders/:orderId
-};
-
-export default SummaryApi;
+    const SummaryApi = {
+      // --- User Endpoints ---
+      register: { url: '/api/users/register', method: 'post' },
+      login: { url: '/api/users/login', method: 'post' },
+      logout: { url: '/api/users/logout', method: 'get' },
+      userDetails: { url: '/api/users/details', method: 'get' },
+      updateUser: { url: '/api/users/details', method: 'put' },
+      uploadAvatar: { url: '/api/users/avatar', method: 'put' },
+      forgotPassword: { url: '/api/users/forgot-password', method: 'post' },
+      verifyOtp: { url: '/api/users/verify-otp', method: 'post' },
+      resetPassword: { url: '/api/users/reset-password', method: 'post' },
+      
+      // --- Eatery Endpoints ---
+      getAllEateries: { url: '/api/eateries', method: 'get' },
+      getEateryMenu: { url: '/api/eateries/menu', method: 'get' },
+    
+      // --- Agent Endpoints ---
+      agentRegister: { url: '/api/agents/register', method: 'post' },
+      agentLogin: { url: '/api/agents/login', method: 'post' },
+      agentLogout: { url: '/api/agents/logout', method: 'get' },
+      agentDetails: { url: '/api/agents/details', method: 'get' },
+      getDeliveryJobs: { url: '/api/agents/jobs', method: 'get' },
+      getDeliveryHistory: { url: '/api/agents/history', method: 'get' },
+      acceptDeliveryJob: { url: '/api/agents/jobs/accept', method: 'post' },
+      updateLocation: { url: '/api/agents/location', method: 'post' },
+    
+      // --- Product (Menu Item) Endpoints ---
+      getProducts: { url: '/api/products', method: 'get' }, 
+      getProductDetails: { url: '/api/products', method: 'get' }, 
+      createProduct: { url: '/api/products', method: 'post' },
+      updateProduct: { url: '/api/products', method: 'put' }, 
+      deleteProduct: { url: '/api/products', method: 'delete' }, 
+      getProductByCategory: { url: '/api/products/by-category', method: 'post' },
+      searchProduct: { url: '/api/products/search', method: 'get' },
+    
+      // --- Category Endpoints ---
+      getCategory: { url: '/api/categories', method: 'get' },
+      addCategory: { url: '/api/categories', method: 'post' },
+      updateCategory: { url: '/api/categories', method: 'put' }, 
+      deleteCategory: { url: '/api/categories', method: 'delete' }, 
+      
+      // --- Sub-Category Endpoints ---
+      getSubCategory: { url: '/api/subcategories', method: 'get' },
+      createSubCategory: { url: '/api/subcategories', method: 'post' },
+      updateSubCategory: { url: '/api/subcategories', method: 'put' },
+      deleteSubCategory: { url: '/api/subcategories', method: 'delete' }, 
+    
+      // --- Cart Endpoints ---
+      getCartItem: { url: '/api/cart', method: 'get' },
+      addToCart: { url: '/api/cart', method: 'post' },
+      updateCartItemQty: { url: '/api/cart', method: 'patch' }, 
+      deleteCartItem: { url: '/api/cart', method: 'delete' }, 
+    
+      // --- Address Endpoints ---
+      getAddress: { url: '/api/addresses', method: 'get' },
+      createAddress: { url: '/api/addresses', method: 'post' },
+      updateAddress: { url: '/api/addresses', method: 'put' }, 
+      deleteAddress: { url: '/api/addresses', method: 'delete' }, 
+    
+      // --- Order Endpoints ---
+      getOrderItems: { url: '/api/orders', method: 'get' },
+      createCheckoutSession: { url: '/api/orders/checkout-session', method: 'post' },
+      createCodOrder: { url: '/api/orders/cash-on-delivery', method: 'post' },
+      getOrderDetails: { url: '/api/orders', method: 'get' },
+    };
+    
+    export default SummaryApi;
