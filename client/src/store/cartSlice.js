@@ -1,24 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
-import Axios from '../utils/Axios';
+import Axios from '../utils/Axios'; 
 import SummaryApi from '../common/SummaryApi';
 import { pricewithDiscount } from '../utils/PriceWithDiscount';
-
 
 export const fetchCartItems = createAsyncThunk(
     'cart/fetchItems', 
     async (_, { rejectWithValue }) => {
         try {
             const response = await Axios.get(SummaryApi.getCartItem.url);
-            return response.data.data; 
+            return response.data.data;
         } catch (error) {
-          
+         
             return rejectWithValue(error.response?.data);
         }
     }
 );
 
-// Adds a new item to the cart
+
 export const addItemToCart = createAsyncThunk(
     'cart/addItem', 
     async (productId, { rejectWithValue }) => {
@@ -34,7 +33,7 @@ export const addItemToCart = createAsyncThunk(
     }
 );
 
-// Updates the quantity of an item in the cart
+
 export const updateItemQuantity = createAsyncThunk(
     'cart/updateQuantity', 
     async ({ cartItemId, quantity }, { rejectWithValue }) => {
@@ -49,7 +48,7 @@ export const updateItemQuantity = createAsyncThunk(
     }
 );
 
-// Deletes an item from the cart
+
 export const deleteCartItem = createAsyncThunk(
     'cart/deleteItem', 
     async (cartItemId, { rejectWithValue }) => {
@@ -115,13 +114,19 @@ const cartSlice = createSlice({
 
 export const { clearCart } = cartSlice.actions;
 
-
 export const selectCartItems = (state) => state.cart.items;
-export const selectTotalQty = (state) => state.cart.items.reduce((total, item) => total + item.quantity, 0);
+
+export const selectTotalQty = (state) => 
+    state.cart.items.reduce((total, item) => {
+        if (item && typeof item.quantity === 'number') {
+            return total + item.quantity;
+        }
+        return total;
+    }, 0);
 
 export const selectTotalPrice = (state) => {
   return state.cart.items.reduce((total, item) => {
-    if (item.productId && typeof item.productId.price === 'number') {
+    if (item && item.productId && typeof item.productId.price === 'number') {
       const itemPrice = pricewithDiscount(item.productId.price, item.productId.discount);
       return total + (item.quantity * itemPrice);
     }
@@ -131,7 +136,7 @@ export const selectTotalPrice = (state) => {
 
 export const selectTotalOriginalPrice = (state) => {
     return state.cart.items.reduce((total, item) => {
-      if (item.productId && typeof item.productId.price === 'number') {
+      if (item && item.productId && typeof item.productId.price === 'number') {
         return total + (item.quantity * item.productId.price);
       }
       return total;
