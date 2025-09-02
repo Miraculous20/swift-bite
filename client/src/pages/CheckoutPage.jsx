@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import toast from 'react-hot-toast';
 
 import AddAddress from '../components/AddAddress';
 import { DisplayPriceInNaira } from '../utils/DisplayPriceInNaira';
 import { selectAllAddresses, fetchAddresses } from '../store/addressSlice';
-import { selectCartItems, selectTotalPrice, selectTotalOriginalPrice, selectTotalQty } from '../store/cartSlice';
-import { createCodOrder, createCheckoutSession } from '../store/orderSlice';
+import { selectTotalPrice, selectTotalOriginalPrice, selectTotalQty } from '../store/cartSlice';
+import { createCheckoutSession } from '../store/orderSlice';
 
 const CheckoutPage = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const cartItems = useSelector(selectCartItems);
+    // const cartItems = useSelector(selectCartItems);
     const addresses = useSelector(selectAllAddresses);
     const totalPrice = useSelector(selectTotalPrice);
     const totalQty = useSelector(selectTotalQty);
@@ -34,39 +34,19 @@ const CheckoutPage = () => {
         }
     }, [addresses, selectedAddressId]);
 
-    const handlePayment = async (paymentType) => {
+    const handlePayment = async () => {
         if (!selectedAddressId) {
             toast.error("Please select a delivery address.");
             return;
         }
 
-        const orderData = {
-            addressId: selectedAddressId,
-            products: cartItems.map(item => ({
-                productId: item.productId._id,
-                quantity: item.quantity,
-                price: item.productId.price
-            })),
-            totalAmount: totalPrice,
-        };
+        const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+        const stripePromise = loadStripe(stripePublicKey);
 
-        if (paymentType === 'cod') {
-            dispatch(createCodOrder(orderData)).then(result => {
-                if (result.meta.requestStatus === 'fulfilled') {
-                    navigate('/success', { state: { text: "Order Placed" } });
-                }
-            });
-        }
-
-        if (paymentType === 'online') {
-            const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-            const stripePromise = loadStripe(stripePublicKey);
-            
-            const result = await dispatch(createCheckoutSession());
-            if (result.meta.requestStatus === 'fulfilled') {
-                const session = result.payload;
-                (await stripePromise).redirectToCheckout({ sessionId: session.id });
-            }
+        const result = await dispatch(createCheckoutSession());
+        if (result.meta.requestStatus === 'fulfilled') {
+            const session = result.payload;
+            (await stripePromise).redirectToCheckout({ sessionId: session.id });
         }
     };
     
@@ -105,11 +85,8 @@ const CheckoutPage = () => {
                         <p>Total Amount:</p><p>{DisplayPriceInNaira(totalPrice)}</p>
                     </div>
                     <div className='flex flex-col w-full gap-4'>
-                        <button className='form-button' onClick={() => handlePayment('online')} disabled={orderStatus === 'loading'}>
+                        <button className='form-button' onClick={handlePayment} disabled={orderStatus === 'loading'}>
                             {orderStatus === 'loading' ? 'Processing...' : 'Pay Online'}
-                        </button>
-                        <button className='w-full py-3 font-semibold text-green-600 border-2 border-green-600 rounded-lg hover:bg-green-600 hover:text-white' onClick={() => handlePayment('cod')} disabled={orderStatus === 'loading'}>
-                            {orderStatus === 'loading' ? 'Processing...' : 'Cash on Delivery'}
                         </button>
                     </div>
                 </div>
