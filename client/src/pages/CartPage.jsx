@@ -24,7 +24,7 @@ const CartPage = () => {
             return;
         }
         toast.error("Please login to proceed to checkout.");
-        navigate("/CheckoutPage");
+        navigate("/login");
     };
 
     const savings = totalOriginalPrice - totalPrice;
