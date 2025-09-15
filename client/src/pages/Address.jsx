@@ -4,9 +4,9 @@ import AddAddress from '../components/AddAddress';
 import { MdDelete, MdEdit } from "react-icons/md";
 import EditAddressDetails from '../components/EditAddressDetails';
 
-// --- CORRECTED IMPORTS: Use the new Thunks and selectors ---
+
 import { fetchAddresses, deleteAddress, selectAllAddresses } from '../store/addressSlice';
-import ConfirmBox from '../components/ConfirmBox'; // Using the reusable ConfirmBox
+import ConfirmBox from '../components/ConfirmBox'; 
 
 const Address = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Address = () => {
   const [dataToEdit, setDataToEdit] = useState(null);
   const [idToDelete, setIdToDelete] = useState(null);
 
-  // Fetch addresses when the component mounts
+ 
   useEffect(() => {
     dispatch(fetchAddresses());
   }, [dispatch]);
@@ -29,16 +29,16 @@ const Address = () => {
     setOpenEditAddress(true);
   };
 
-  // When the user clicks the delete icon, set the ID and open the confirmation box
+  
   const handleDeleteClick = (id) => {
     setIdToDelete(id);
     setOpenConfirmDelete(true);
   };
 
-  // This function is called when the user confirms the deletion
+ 
   const handleConfirmDelete = () => {
     if (idToDelete) {
-      dispatch(deleteAddress(idToDelete)); // Dispatch the thunk with the ID
+      dispatch(deleteAddress(idToDelete)); 
       setOpenConfirmDelete(false);
       setIdToDelete(null);
     }
@@ -46,16 +46,16 @@ const Address = () => {
 
   return (
     <div>
-      <div className='bg-white shadow-lg p-4 flex justify-between items-center'>
-        <h2 className='font-semibold text-lg'>My Addresses</h2>
-        <button onClick={() => setOpenAddAddress(true)} className='border border-green-600 text-green-600 px-4 py-2 rounded-full font-semibold hover:bg-green-600 hover:text-white'>
+      <div className='flex items-center justify-between p-4 bg-white shadow-lg'>
+        <h2 className='text-lg font-semibold'>My Addresses</h2>
+        <button onClick={() => setOpenAddAddress(true)} className='px-4 py-2 font-semibold text-green-600 border border-green-600 rounded-full hover:bg-green-600 hover:text-white'>
           Add New Address
         </button>
       </div>
-      <div className='p-4 grid gap-4'>
+      <div className='grid gap-4 p-4'>
         {status === 'loading' && !addressList.length && <p>Loading addresses...</p>}
         {addressList.map((address) => (
-          <div key={address._id} className='border rounded-lg p-4 flex justify-between items-start bg-white'>
+          <div key={address._id} className='flex items-start justify-between p-4 bg-white border rounded-lg'>
             <div>
               <p className="font-semibold">{address.address_line}</p>
               <p>{address.city}, {address.state}</p>
@@ -72,7 +72,7 @@ const Address = () => {
             </div>
           </div>
         ))}
-        <div onClick={() => setOpenAddAddress(true)} className='h-24 border-2 border-dashed rounded-lg flex justify-center items-center cursor-pointer text-slate-500 hover:border-green-500 hover:text-green-500'>
+        <div onClick={() => setOpenAddAddress(true)} className='flex items-center justify-center h-24 border-2 border-dashed rounded-lg cursor-pointer text-slate-500 hover:border-green-500 hover:text-green-500'>
           + Add a New Address
         </div>
       </div>
@@ -80,7 +80,7 @@ const Address = () => {
       {openAddAddress && <AddAddress close={() => setOpenAddAddress(false)} />}
       {openEditAddress && <EditAddressDetails data={dataToEdit} close={() => setOpenEditAddress(false)} />}
       
-      {/* Reusable Confirmation Box */}
+     
       {openConfirmDelete && (
         <ConfirmBox 
           message="Are you sure you want to delete this address?"
