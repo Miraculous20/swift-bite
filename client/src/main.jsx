@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from './store/store.js';
 import './index.css';
 import App from './App';
-import HomePage from './pages/HomePage';
+import Home from './pages/Home';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,7 +13,7 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route index element={<HomePage />} />
+            <Route index element={<Home />} />
           </Route>
         </Routes>
       </BrowserRouter>
