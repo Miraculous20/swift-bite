@@ -18,21 +18,17 @@ function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const userDetails = useSelector(selectUser);
-
-  // This effect runs once on app load to check for existing user/agent sessions
   useEffect(() => {
     dispatch(fetchUserDetails());
     dispatch(fetchAgentDetails());
   }, [dispatch]);
 
-  // Fetch initial non-user-specific data
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchSubCategories());
-    dispatch(fetchEateries()); // Fetch eateries for the homepage
+    dispatch(fetchEateries()); 
   }, [dispatch]);
 
-  // Fetch all user-specific data ONLY when the user is logged in
   useEffect(() => {
     if (userDetails?._id) {
       dispatch(fetchCartItems());
@@ -49,7 +45,6 @@ function App() {
         <Outlet />
       </main>
       <Footer />
-      {/* Hide mobile cart link on checkout page */}
       {location.pathname !== '/checkout' && <CartMobileLink />}
     </>
   );

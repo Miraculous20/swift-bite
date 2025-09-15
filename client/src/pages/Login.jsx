@@ -14,7 +14,6 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // This state controls which login form is shown. It defaults to 'user'.
   const [loginType, setLoginType] = useState('user'); 
 
   const userStatus = useSelector(selectUserStatus);
@@ -23,14 +22,11 @@ const Login = () => {
   const agentError = useSelector(state => state.agent.error);
 
   const [showPassword, setShowPassword] = useState(false);
-
-  // This automatically switches the form to 'agent' if you are redirected 
-  // from a page that requires an agent login.
   useEffect(() => {
     if (location.state?.role === 'agent') {
       setLoginType('agent');
     } else {
-      setLoginType('user'); // Ensures it defaults to user otherwise
+      setLoginType('user');
     }
   }, [location.state]);
 
@@ -38,12 +34,14 @@ const Login = () => {
     try {
       if (loginType === 'user') {
         const resultAction = await dispatch(loginUser(data));
-        unwrapResult(resultAction);
-        navigate("/"); // Redirect user to home
+        const user = unwrapResult(resultAction);
+        console.log("Login success, user:", user); 
+        navigate("/"); 
       } else {
         const resultAction = await dispatch(loginAgent(data));
-        unwrapResult(resultAction);
-        navigate("/agent/dashboard"); // Redirect agent to their dashboard
+        const agent = unwrapResult(resultAction);
+        console.log("Agent login success, agent:", agent); 
+        navigate("/agent/dashboard"); 
       }
     } catch (err) {
       console.error(`Failed to login as ${loginType}:`, err);
