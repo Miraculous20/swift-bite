@@ -6,6 +6,7 @@ import { store } from './store/store.js';
 import './index.css';
 import App from './App';
 import Home from './pages/Home';
+import Login from './pages/Login';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
