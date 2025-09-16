@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-// --- Helper Components (for a self-contained example) ---
-
-// A simple logo component for an agent
 const AgentLogo = ({ className }) => (
     <div className={`flex items-center justify-center bg-blue-500 rounded-full ${className}`}>
         <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -12,20 +9,16 @@ const AgentLogo = ({ className }) => (
 AgentLogo.propTypes = { className: PropTypes.string };
 
 
-// --- Main Authentication Page Component ---
-
 const AgentAuthPage = () => {
-    // State to toggle between 'login' and 'register' forms
     const [authMode, setAuthMode] = useState('login'); 
     
-    // State for form inputs
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [fullName, setFullName] = useState(''); // For agent registration
+    const [fullName, setFullName] = useState(''); 
 
     const isLoginMode = authMode === 'login';
 
-    // Placeholder for handling form submission
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isLoginMode) {
@@ -42,7 +35,6 @@ const AgentAuthPage = () => {
 
     const toggleAuthMode = () => {
         setAuthMode(isLoginMode ? 'register' : 'login');
-        // Clear form fields when toggling
         setEmail('');
         setPassword('');
         setFullName('');
