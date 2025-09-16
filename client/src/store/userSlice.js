@@ -33,19 +33,14 @@ export const fetchUserDetails = createAsyncThunk(
 );
 
 export const loginUser = createAsyncThunk(
-    'user/login', 
-    async (credentials, { dispatch, rejectWithValue }) => {
-        try {
-            const response = await Axios.post(SummaryApi.login.url, credentials);
-            toast.success(response.data.message);
-            localStorage.setItem('user', JSON.stringify(response.data.data));
-            dispatch(fetchCartItems());
-            return response.data.data;
-        } catch (error) {
-            const message = error.response?.data?.message || 'Login failed';
-            toast.error(message);
-            return rejectWithValue(message);
+    'user/loginUser',
+    async (credentials) => {
+        const response = await Axios.post(SummaryApi.login.url, credentials);
+       
+        if (response.data?.user) {
+            localStorage.setItem('user', JSON.stringify(response.data.user));
         }
+        return response.data.user;
     }
 );
 
@@ -149,8 +144,7 @@ const userSlice = createSlice({
                 state.userDetails = null;
                 state.status = 'idle';
                 state.error = null;
-            })
-            // Cases for uploadAvatar
+            })           
             .addCase(uploadAvatar.pending, (state) => { state.status = 'loading'; })
             .addCase(uploadAvatar.fulfilled, (state, action) => {
                 state.status = 'succeeded';
@@ -164,10 +158,11 @@ const userSlice = createSlice({
             });
     },
 });
-
 export const { setUserDetails } = userSlice.actions;
 
 export const selectUser = (state) => state.user.userDetails;
 export const selectUserStatus = (state) => state.user.status;
 
 export default userSlice.reducer;
+
+
